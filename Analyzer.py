@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 # Регулярное выражение для разбора строки лога
-LOG_REGEX = r'^(\S+) - - $([^$]+)$ "(\w+) (\S+) HTTP/\d\.\d" (\d{3}) (\d+|-) "([^"]*)" "([^"]*)" (\d+)$'
+LOG_REGEX = r'^(\S+) (\S+) (\S+) \[([^\]]+)\] "(\w+) (\S+)\s+HTTP/\d\.\d" (\d{3}) (\d+|-) "(.*)" "(.*)" (\d+)'
 
 # Поддерживаемые HTTP-методы
 HTTP_METHODS = {"GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"}
@@ -14,7 +14,7 @@ def parse_log_line(line):
     if not match:
         return None
 
-    ip, timestamp, method, url, status, size, referer, user_agent, duration = match.groups()
+    ip, id, user, timestamp, method, url, status, size, referer, user_agent, duration = match.groups()
     return {
         'ip': ip,
         'date': timestamp,
